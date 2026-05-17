@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeatherWise</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+<nav>
+  <h1>☁️ WeatherWise</h1>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="search.html">Search</a>
+    <a href="about.html">About</a>
+    <a href="help.html">Help</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <h2>Your Smart Weather Assistant</h2>
+  <p>Forecasts, outfit ideas, and commute tips in one place.</p>
+</header>
+
+<main>
+
+  <section class="card">
+    <h2>Current Weather</h2>
+    <div id="current-weather">Loading...</div>
+  </section>
+
+  <section class="card">
+    <h2>5-Day Forecast</h2>
+    <canvas id="forecastChart"></canvas>
+  </section>
+
+  <section class="card">
+    <h2>Outfit & Commute Tips</h2>
+    <div id="tips">Loading...</div>
+  </section>
+
+</main>
+
+<script src="app.js"></script>
+
+</body>
+</html>

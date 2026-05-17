@@ -1,0 +1,111 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background: #f3f7fb;
+    color: #222;
+  }
+  
+  nav {
+    background: #1e3a8a;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .hero {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  
+  .hero h2 {font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  
+  main {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    gap: 20px;
+    padding-bottom: 50px;
+  }
+  
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  .current-weather h3 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+  }
+  .search-box {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .search-box input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: #1d4ed8;
+  }
+  
+  .result-card,
+  .favorite-card {
+    background: #eef4ff;
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 10px;
+  }
+  
+  .faq h3 {
+    margin-top: 20px;
+  }
+  @media (max-width: 768px) {
+    nav {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .search-box {
+      flex-direction: column;
+    }
+  
+    .hero h2 {
+      font-size: 2rem;
+    }
+  }
