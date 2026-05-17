@@ -154,4 +154,6 @@ app.delete("/api/favorites/:id", async (req, res) => {
 
   res.json({ success: true });
 });
-module.exports = app;
+app.listen(port, () => {
+  console.log(`WeatherWise running on http://localhost:${port}`);
+});
