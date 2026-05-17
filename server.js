@@ -5,36 +5,57 @@ const cors = require("cors");
 const path = require("path");
 const { createClient } = require("@supabase/supabase-js");
 
-const fetchFn =
-  global.fetch ||
-  ((...args) =>
-    import("node-fetch").then(({ default: fetch }) => fetch(...args)));
+const fetchFn = global.fetch || ((...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args)));
 
 const app = express();
+const port = process.env.PORT || 3000;
+
 app.use(cors());
 app.use(express.json());
 
-// ✅ THIS is what makes your HTML pages work on Vercel
-app.use(express.static(path.join(__dirname)));
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
-);
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+app.get("/search", (req, res) => {
+  res.sendFile(path.join(__dirname, "search.html"));
+});
+
+app.get("/about", (req, res) => {
+  res.sendFile(path.join(__dirname, "about.html"));
+});
+
+app.get("/help", (req, res) => {
+  res.sendFile(path.join(__dirname, "help.html"));
+});
+
+app.get("/style.css", (req, res) => {
+  res.sendFile(path.join(__dirname, "style.css"));
+});
+
+app.get("/app.js", (req, res) => {
+  res.sendFile(path.join(__dirname, "app.js"));
+});
+
+app.get("/search.js", (req, res) => {
+  res.sendFile(path.join(__dirname, "search.js"));
+});
 
 app.get("/api/geocode", async (req, res) => {
   const { name, count = 5 } = req.query;
 
-  if (!name) return res.json({ results: [] });
+  if (!name) {
+    return res.json({ results: [] });
+  }
 
   try {
-    const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
-      name
-    )}&count=${count}&language=en&format=json`;
-
+    const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(name)}&count=${count}&language=en&format=json`;
     const response = await fetchFn(url);
     const data = await response.json();
-
     res.json(data || { results: [] });
   } catch (err) {
     res.status(500).json({ error: "Geocoding failed", details: err.message });
@@ -62,7 +83,6 @@ app.get("/api/weather", async (req, res) => {
     });
 
     const url = `https://api.open-meteo.com/v1/forecast?${params.toString()}`;
-
     const response = await fetchFn(url);
 
     if (!response.ok) {
@@ -93,7 +113,9 @@ app.post("/api/favorites", async (req, res) => {
     .insert([{ user_id, name, latitude, longitude }])
     .select();
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
 
   res.status(201).json({ favorite: data?.[0] });
 });
@@ -101,7 +123,9 @@ app.post("/api/favorites", async (req, res) => {
 app.get("/api/favorites", async (req, res) => {
   const { user_id } = req.query;
 
-  if (!user_id) return res.json({ favorites: [] });
+  if (!user_id) {
+    return res.json({ favorites: [] });
+  }
 
   const { data, error } = await supabase
     .from("favorites")
@@ -109,7 +133,9 @@ app.get("/api/favorites", async (req, res) => {
     .eq("user_id", user_id)
     .order("created_at", { ascending: false });
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
 
   res.json({ favorites: data || [] });
 });
@@ -122,9 +148,10 @@ app.delete("/api/favorites/:id", async (req, res) => {
     .delete()
     .eq("id", id);
 
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
 
   res.json({ success: true });
 });
-
 module.exports = app;
