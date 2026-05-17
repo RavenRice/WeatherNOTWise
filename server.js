@@ -20,6 +20,7 @@ app.get("/", (req, res) => {
   res.send("WeatherWise server is running");
 });
 
+
 app.get("/api/geocode", async (req, res) => {
   const { name } = req.query;
 
@@ -43,6 +44,7 @@ app.get("/api/geocode", async (req, res) => {
   }
 });
 
+
 app.get("/api/weather", async (req, res) => {
   const { latitude, longitude } = req.query;
 
@@ -54,8 +56,11 @@ app.get("/api/weather", async (req, res) => {
     const url =
       `https://api.open-meteo.com/v1/forecast` +
       `?latitude=${latitude}&longitude=${longitude}` +
-      `&current=temperature_2m,weather_code,precipitation,wind_speed_10m` +
+      `&current=temperature_2m,precipitation,wind_speed_10m` +
       `&daily=temperature_2m_max,temperature_2m_min` +
+      `&temperature_unit=fahrenheit` +
+      `&wind_speed_unit=mph` +
+      `&precipitation_unit=inch` +
       `&forecast_days=5&timezone=auto`;
 
     const response = await fetch(url);
@@ -71,62 +76,49 @@ app.get("/api/weather", async (req, res) => {
 app.get("/api/favorites", async (req, res) => {
   const { user_id } = req.query;
 
-  try {
-    const { data, error } = await supabase
-      .from("favorites")
-      .select("*")
-      .eq("user_id", user_id)
-      .order("created_at", { ascending: false });
+  const { data, error } = await supabase
+    .from("favorites")
+    .select("*")
+    .eq("user_id", user_id)
+    .order("created_at", { ascending: false });
 
-    if (error) {
-      return res.status(500).json({ error: error.message });
-    }
-
-    res.json({ favorites: data });
-
-  } catch (err) {
-    res.status(500).json({ error: "Failed to load favorites" });
+  if (error) {
+    return res.status(500).json({ error: error.message });
   }
+
+  res.json({ favorites: data });
 });
+
 
 app.post("/api/favorites", async (req, res) => {
   const { user_id, name, latitude, longitude } = req.body;
 
-  try {
-    const { data, error } = await supabase
-      .from("favorites")
-      .insert([{ user_id, name, latitude, longitude }])
-      .select();
+  const { data, error } = await supabase
+    .from("favorites")
+    .insert([{ user_id, name, latitude, longitude }])
+    .select();
 
-    if (error) {
-      return res.status(500).json({ error: error.message });
-    }
-
-    res.status(201).json({ favorite: data[0] });
-
-  } catch (err) {
-    res.status(500).json({ error: "Failed to save favorite" });
+  if (error) {
+    return res.status(500).json({ error: error.message });
   }
+
+  res.status(201).json({ favorite: data[0] });
 });
+
 
 app.delete("/api/favorites/:id", async (req, res) => {
   const { id } = req.params;
 
-  try {
-    const { error } = await supabase
-      .from("favorites")
-      .delete()
-      .eq("id", id);
+  const { error } = await supabase
+    .from("favorites")
+    .delete()
+    .eq("id", id);
 
-    if (error) {
-      return res.status(500).json({ error: error.message });
-    }
-
-    res.json({ success: true });
-
-  } catch (err) {
-    res.status(500).json({ error: "Failed to delete favorite" });
+  if (error) {
+    return res.status(500).json({ error: error.message });
   }
+
+  res.json({ success: true });
 });
 
 app.listen(PORT, () => {

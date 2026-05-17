@@ -37,20 +37,14 @@ searchBtn.addEventListener("click", async () => {
 });
 
 async function getWeather(lat, lon) {
-  const res = await fetch(`${API}/api/weather?latitude=${lat}&longitude=${lon}`);
+
+  const res = await fetch(
+    `${API}/api/weather?latitude=${lat}&longitude=${lon}`
+  );
+
   const data = await res.json();
 
-  alert(`Temp: ${data.current.temperature_2m}`);
-}
-
-async function saveFavorite(name, lat, lon) {
-  await fetch(`${API}/api/favorites`, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ user_id: USER_ID, name, latitude: lat, longitude: lon })
-  });
-
-  loadFavorites();
+  alert(`Temp: ${data.current.temperature_2m}°F`);
 }
 
 async function loadFavorites() {
