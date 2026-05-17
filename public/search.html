@@ -1,18 +1,16 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Search Locations - WeatherWise</title>
-
   <link rel="stylesheet" href="style.css">
-
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
 
   <nav>
     <h1>WeatherWise</h1>
-
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="search.html">Search</a>
@@ -22,32 +20,46 @@
   </nav>
 
   <main>
-
     <section class="card" data-aos="fade-up">
       <h2>Search Locations</h2>
-
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="Search city, zip code, campus...">
         <button id="searchBtn">Search</button>
       </div>
     </section>
+
+    <section class="card">
+      <h2>Current Weather</h2>
+      <div id="current-weather">Search for a location to see weather.</div>
+    </section>
+
+    <section class="card">
+      <h2>5-Day Forecast</h2>
+      <canvas id="forecastChart"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>Outfit & Commute Tips</h2>
+      <div id="tips">Search for a location to see tips.</div>
+    </section>
+
     <section class="card" data-aos="fade-right">
-        <h2>Search Results</h2>
-        <div id="results"></div>
-      </section>
-  
-      <section class="card" data-aos="fade-left">
-        <h2>Saved Favorites</h2>
-        <div id="favorites"></div>
-      </section>
-  
-    </main>
-  
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-      AOS.init();
-    </script>
-  
-    <script src="search.js"></script>
-  </body>
-  </html>
+      <h2>Search Results</h2>
+      <div id="results"></div>
+    </section>
+
+    <section class="card" data-aos="fade-left">
+      <h2>Saved Favorites</h2>
+      <div id="favorites"></div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="search.js"></script>
+</body>
+</html>
